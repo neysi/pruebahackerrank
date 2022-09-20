@@ -82,6 +82,7 @@ describe('stock_trades_api_medium', () => {
     it('should fetch all the trades', async () => {
         const results = await setup(user25_sell_AAC, user24_sell_AAC, user23_sell_AAC, user23_buy_ABX);
         const response = await chai.request(server).get('/trades')
+
         response.should.have.status(200);
         response.body.should.eql(results);
     })

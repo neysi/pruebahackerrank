@@ -8,6 +8,9 @@ const tradesRouter = require('./routes/trades');
 
 const app = express();
 
+const allowedMethods = ['GET', 'HEAD', 'POST']
+
+
 // view engine setup
 app.set('view engine', 'jade');
 
@@ -16,6 +19,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use((req, res, next) => {
+    if (!allowedMethods.includes(req.method)) return res.status(405).end('Method not allowed')
+    return next()
+})
 
 app.use('/trades', tradesRouter);
 app.use('/', indexRouter);
